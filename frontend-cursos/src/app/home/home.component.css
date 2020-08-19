@@ -1,0 +1,13 @@
+table {
+    width: 100%;
+  }
+
+.nombreColumna {
+    font-size: 22px;
+    background-color: #F2F2F2;
+    color: black;
+}
+
+.datoColumna {
+    font-size: 16px;
+}
