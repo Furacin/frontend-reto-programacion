@@ -1,4 +1,4 @@
-mat-card{
+.mat-card{
     max-width: 960px;
     margin: 0 auto;
     padding: 0px !important;
@@ -8,4 +8,5 @@ mat-card{
 .title {
     font-size: 25px;
     font-weight: bold;
+    margin: 0 auto;
 }
