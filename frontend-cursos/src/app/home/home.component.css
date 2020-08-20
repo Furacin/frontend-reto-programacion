@@ -53,6 +53,12 @@ table {
     margin-right:auto;
 }
 
+.fields-margin-number {
+    margin-left:0; 
+    margin-right:auto;
+    width: 50px;
+}
+
 .bold {
     font-weight: bold;
 }
@@ -65,4 +71,9 @@ table {
   
 .input-full-width {
     width: 100%;
+}
+
+.botonAnadir {
+    width: 110px;
+    margin-top: 20px;
 }

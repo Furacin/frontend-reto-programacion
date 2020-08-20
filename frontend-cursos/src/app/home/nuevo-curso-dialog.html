@@ -35,9 +35,16 @@
                 </mat-select>
               </mat-form-field>
       </mat-grid-tile>
-      </mat-grid-list>
+
+      <mat-grid-tile [colspan] = "1" [rowspan] = "1"><span class="fields-margin bold">Horas</span></mat-grid-tile>
+        <mat-grid-tile [colspan] = "3" [rowspan] = "1">
+            <mat-form-field class="fields-margin-number">
+                <input matInput [(ngModel)]="valor2" type="number" placeholder="">
+            </mat-form-field>
+        </mat-grid-tile>
+    </mat-grid-list>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-    <button class="mat-raised-button" (click)="close()">Close</button>
+    <button mat-raised-button color="primary" class="botonAnadir" (click)="close()">Añadir</button>
 </mat-dialog-actions>

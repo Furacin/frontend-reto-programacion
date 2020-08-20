@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
   nuevoCursoDialog() {
     const dialogRef = this.dialog.open(CursoDialogComponent, {
       width: '500px',
-      height: '500px',
+      height: '420px',
       //data: {name: this.name, animal: this.animal}
     });
 
@@ -69,6 +69,7 @@ export class HomeComponent implements OnInit {
 })
 export class CursoDialogComponent {
   valor1="";
+  valor2=0;
   profesores: Profesor[] = [
     {value: '1', viewValue: 'Roberto Canales'},
     {value: '2', viewValue: 'David Gómez'},
