@@ -24,6 +24,7 @@ table {
 
 .tituloDialog {
     font-weight: bold;
+    font-size: 26px;
 }
 
 .mat-dialog-container{ 
@@ -51,6 +52,7 @@ table {
 .fields-margin {
     margin-left:0; 
     margin-right:auto;
+    font-size: 18px;
 }
 
 .fields-margin-number {
@@ -76,4 +78,5 @@ table {
 .botonAnadir {
     width: 110px;
     margin-top: 20px;
+    font-size: 16px;
 }

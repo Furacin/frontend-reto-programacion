@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
   nuevoCursoDialog() {
     const dialogRef = this.dialog.open(CursoDialogComponent, {
       width: '500px',
-      height: '420px',
+      height: '530px',
       //data: {name: this.name, animal: this.animal}
     });
 
