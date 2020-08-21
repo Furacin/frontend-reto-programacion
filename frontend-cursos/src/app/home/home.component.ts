@@ -39,8 +39,7 @@ export class HomeComponent implements OnInit {
   constructor(private http: HttpClient, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    // Simple GET request with response type <any>
-    this.http.get<any>('http://localhost:8080/springboot-mybatis/api/becas/allCursos').subscribe(data => {
+    this.http.get<any>('http://localhost:8080/springboot-mybatis/api/curso/allCursos').subscribe(data => {
       this.listaCursos = data;
       this.dataSource = new MatTableDataSource<Curso>(this.listaCursos);
       this.dataSource.paginator = this.paginator;
@@ -51,12 +50,10 @@ export class HomeComponent implements OnInit {
     const dialogRef = this.dialog.open(CursoDialogComponent, {
       width: '500px',
       height: '530px',
-      //data: {name: this.name, animal: this.animal}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      //this.animal = result;
     });
   }
 
@@ -70,19 +67,21 @@ export class HomeComponent implements OnInit {
 export class CursoDialogComponent {
   valor1="";
   valor2=0;
-  profesores: Profesor[] = [
-    {value: '1', viewValue: 'Roberto Canales'},
-    {value: '2', viewValue: 'David Gómez'},
-    {value: '3', viewValue: 'Alberto Moratilla'}
-  ];
+
   niveles: Nivel[] = [
     {value: 'Básico'},
     {value: 'Intermedio'},
     {value: 'Avanzado'}
   ];
+  profesores: Profesor[];
 
-  constructor(public dialogRef: MatDialogRef<CursoDialogComponent>) {}
-    //@Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+  constructor(private http: HttpClient, public dialogRef: MatDialogRef<CursoDialogComponent>) {}
+
+  ngOnInit(): void {
+    this.http.get<any>('http://localhost:8080/springboot-mybatis/api/profesor/allProfesores').subscribe(data => {
+      this.profesores = data;
+    })
+  }
 
   onNoClick(): void {
     this.dialogRef.close();

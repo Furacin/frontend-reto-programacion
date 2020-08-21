@@ -10,8 +10,8 @@
             <mat-form-field appearance="fill" class="fields-margin input-full-width">
                 <mat-label>Profesores</mat-label>
                 <mat-select>
-                  <mat-option *ngFor="let profesor of profesores" [value]="profesor.value">
-                    {{profesor.viewValue}}
+                  <mat-option *ngFor="let profesor of profesores" [value]="profesor.id">
+                    {{profesor.nombre}} {{profesor.apellidos}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
