@@ -3,13 +3,16 @@
 <mat-dialog-content class="dialog-content">
     <mat-grid-list cols="4" rowHeight="70px">
         <mat-grid-tile [colspan] = "1" [rowspan] = "1"><span class="fields-margin bold">Activo</span></mat-grid-tile>
-        <mat-grid-tile [colspan] = "3" [rowspan] = "1"><mat-checkbox class="fields-margin"></mat-checkbox></mat-grid-tile>
+        <mat-grid-tile [colspan] = "3" [rowspan] = "1">
+          <mat-checkbox class="fields-margin" [(ngModel)]="activoChecked">
+          </mat-checkbox>
+        </mat-grid-tile>
 
         <mat-grid-tile [colspan] = "1" [rowspan] = "1"><span class="fields-margin bold">Profesor</span></mat-grid-tile>
         <mat-grid-tile [colspan] = "3" [rowspan] = "1">
             <mat-form-field appearance="fill" class="fields-margin input-full-width">
                 <mat-label>Profesores</mat-label>
-                <mat-select>
+                <mat-select [(ngModel)]="selectedProfesor">
                   <mat-option *ngFor="let profesor of profesores" [value]="profesor.id">
                     {{profesor.nombre}} {{profesor.apellidos}}
                   </mat-option>
@@ -20,7 +23,7 @@
         <mat-grid-tile [colspan] = "1" [rowspan] = "1"><span class="fields-margin bold">Título</span></mat-grid-tile>
         <mat-grid-tile [colspan] = "3" [rowspan] = "1">
             <mat-form-field class="input-full-width">
-                <input class="fields-margin" matInput [(ngModel)]="valor1" type="text" placeholder="">
+                <input class="fields-margin" matInput [(ngModel)]="tituloCursoInput" type="text" placeholder="">
             </mat-form-field>
         </mat-grid-tile>
 
@@ -28,7 +31,7 @@
         <mat-grid-tile [colspan] = "3" [rowspan] = "1">
             <mat-form-field appearance="fill" class="fields-margin input-full-width">
                 <mat-label>Niveles</mat-label>
-                <mat-select>
+                <mat-select [(ngModel)]="selectedNivel">
                   <mat-option *ngFor="let nivel of niveles" [value]="nivel.value">
                     {{nivel.value}}
                   </mat-option>
@@ -39,12 +42,12 @@
       <mat-grid-tile [colspan] = "1" [rowspan] = "1"><span class="fields-margin bold">Horas</span></mat-grid-tile>
         <mat-grid-tile [colspan] = "3" [rowspan] = "1">
             <mat-form-field class="fields-margin-number">
-                <input matInput [(ngModel)]="valor2" type="number" placeholder="">
+                <input matInput [(ngModel)]="numHorasInput" type="number" placeholder="">
             </mat-form-field>
         </mat-grid-tile>
     </mat-grid-list>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-    <button mat-raised-button color="primary" class="botonAnadir" (click)="close()">Añadir</button>
+    <button mat-raised-button color="primary" class="botonAnadir" (click)="addCurso()">Añadir</button>
 </mat-dialog-actions>
