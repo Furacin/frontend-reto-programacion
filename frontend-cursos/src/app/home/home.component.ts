@@ -61,6 +61,9 @@ export class HomeComponent implements OnInit {
     })
   }
 
+  /*
+  * Abrir dialog para añadir un nuevo curso
+  */
   nuevoCursoDialog() {
     const dialogRef = this.dialog.open(CursoDialogComponent, {
       width: '550px',
@@ -123,10 +126,6 @@ export class CursoDialogComponent {
     });
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
   addCurso() {
     let curso: Curso = {
       titulo: this.nuevoCursoForm.value.inputTituloForm, 
@@ -135,11 +134,12 @@ export class CursoDialogComponent {
       activo: this.nuevoCursoForm.value.activoCheckboxForm ? 'SI' : 'NO', 
       profesor_id: this.nuevoCursoForm.value.profesorDropdownForm
     };
-    
-    this.http.post<any>('http://localhost:8080/springboot-mybatis/api/curso/addCurso', curso).subscribe(data => {
+    if (curso.titulo != null && curso.nivel != null && curso.numHoras != null && curso.activo != null && curso.profesor_id != null) {
+      this.http.post<any>('http://localhost:8080/springboot-mybatis/api/curso/addCurso', curso).subscribe(data => {
        this.postId = data.id;
        this.dialogRef.close();
      })
+    }
   }
 
 }
