@@ -19,7 +19,7 @@ export class Curso {
   titulo: String;
   nivel: String;
   numHoras: String;
-  activo: String;
+  activo: Boolean;
   profesor_id: number;
 }
 
@@ -131,7 +131,7 @@ export class CursoDialogComponent {
       titulo: this.nuevoCursoForm.value.inputTituloForm, 
       nivel: this.nuevoCursoForm.value.nivelDropdownForm, 
       numHoras: this.nuevoCursoForm.value.inputHorasForm, 
-      activo: this.nuevoCursoForm.value.activoCheckboxForm ? 'SI' : 'NO', 
+      activo: this.nuevoCursoForm.value.activoCheckboxForm, 
       profesor_id: this.nuevoCursoForm.value.profesorDropdownForm
     };
     if (curso.titulo != null && curso.nivel != null && curso.numHoras != null && curso.activo != null && curso.profesor_id != null) {
