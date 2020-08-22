@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatPaginator } from '@angular/material/paginator';
 import {MatTableDataSource } from '@angular/material/table';
 import {MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 export class CursoDTO {
   titulo: String;
@@ -53,7 +54,7 @@ export class HomeComponent implements OnInit {
     /*
     * Cargamos la lista de cursos disponibles
     */
-    this.http.get<any>('http://localhost:8080/springboot-mybatis/api/curso/allCursos').subscribe(data => {
+    this.http.get<any>('http://localhost:8080/springboot-mybatis/api/curso/allCursosActivos').subscribe(data => {
     this.listaCursos = data;
     this.dataSource = new MatTableDataSource<CursoDTO>(this.listaCursos);
     this.dataSource.paginator = this.paginator;
@@ -62,8 +63,8 @@ export class HomeComponent implements OnInit {
 
   nuevoCursoDialog() {
     const dialogRef = this.dialog.open(CursoDialogComponent, {
-      width: '500px',
-      height: '530px',
+      width: '550px',
+      height: '610px',
     });
 
     dialogRef.afterClosed().subscribe(() => {
@@ -95,20 +96,16 @@ export class CursoDialogComponent {
   profesores: Profesor[];
 
   /*
-  * Valores del dialog
-  */
-  activoChecked: boolean = false;
-  tituloCursoInput: String;
-  numHorasInput: String;
-  selectedProfesor: number;
-  selectedNivel: string;
-
-  /*
   * POST HTTP
   */
   postId; 
 
-  constructor(private http: HttpClient, public dialogRef: MatDialogRef<CursoDialogComponent>) {}
+  /*
+  * Formulario
+  */
+ nuevoCursoForm: FormGroup;
+
+  constructor(private http: HttpClient, public dialogRef: MatDialogRef<CursoDialogComponent>, private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     /*
@@ -117,6 +114,13 @@ export class CursoDialogComponent {
     this.http.get<any>('http://localhost:8080/springboot-mybatis/api/profesor/allProfesores').subscribe(data => {
       this.profesores = data;
     })
+    this.nuevoCursoForm = this.formBuilder.group({
+      activoCheckboxForm: [null, [Validators.required]],
+      profesorDropdownForm: [null, [Validators.required]],
+      inputTituloForm: [null, [Validators.required]],
+      nivelDropdownForm: [null, [Validators.required]],
+      inputHorasForm: [null, [Validators.required]]
+    });
   }
 
   onNoClick(): void {
@@ -125,17 +129,17 @@ export class CursoDialogComponent {
 
   addCurso() {
     let curso: Curso = {
-      titulo: this.tituloCursoInput, 
-      nivel: this.selectedNivel, 
-      numHoras: this.numHorasInput, 
-      activo: this.activoChecked ? 'SI' : 'NO', 
-      profesor_id: this.selectedProfesor
+      titulo: this.nuevoCursoForm.value.inputTituloForm, 
+      nivel: this.nuevoCursoForm.value.nivelDropdownForm, 
+      numHoras: this.nuevoCursoForm.value.inputHorasForm, 
+      activo: this.nuevoCursoForm.value.activoCheckboxForm ? 'SI' : 'NO', 
+      profesor_id: this.nuevoCursoForm.value.profesorDropdownForm
     };
     
     this.http.post<any>('http://localhost:8080/springboot-mybatis/api/curso/addCurso', curso).subscribe(data => {
-      this.postId = data.id;
-      this.dialogRef.close();
-    })
+       this.postId = data.id;
+       this.dialogRef.close();
+     })
   }
 
 }
