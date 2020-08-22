@@ -17,6 +17,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSelectModule } from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { MatSelectModule } from '@angular/material/select';
     FormsModule,
     MatInputModule,
     MatGridListModule,
-    MatSelectModule
+    MatSelectModule,
+    ReactiveFormsModule
   ],
   entryComponents: [HomeComponent, CursoDialogComponent],
   providers: [],

@@ -1,53 +1,68 @@
 <h2 mat-dialog-title class="tituloDialog">Añadir Curso</h2>
 
 <mat-dialog-content class="dialog-content">
-    <mat-grid-list cols="4" rowHeight="70px">
+  <form [formGroup]="nuevoCursoForm" (submit)="addCurso()">
+    <mat-grid-list cols="5" rowHeight="90px">
         <mat-grid-tile [colspan] = "1" [rowspan] = "1"><span class="fields-margin bold">Activo</span></mat-grid-tile>
-        <mat-grid-tile [colspan] = "3" [rowspan] = "1">
-          <mat-checkbox class="fields-margin" [(ngModel)]="activoChecked">
+        <mat-grid-tile [colspan] = "4" [rowspan] = "1">
+          <mat-checkbox class="fields-margin" formControlName="activoCheckboxForm">
           </mat-checkbox>
         </mat-grid-tile>
 
         <mat-grid-tile [colspan] = "1" [rowspan] = "1"><span class="fields-margin bold">Profesor</span></mat-grid-tile>
-        <mat-grid-tile [colspan] = "3" [rowspan] = "1">
+        <mat-grid-tile [colspan] = "4" [rowspan] = "1">
             <mat-form-field appearance="fill" class="fields-margin input-full-width">
                 <mat-label>Profesores</mat-label>
-                <mat-select [(ngModel)]="selectedProfesor">
+                <mat-select formControlName="profesorDropdownForm">
                   <mat-option *ngFor="let profesor of profesores" [value]="profesor.id">
                     {{profesor.nombre}} {{profesor.apellidos}}
                   </mat-option>
                 </mat-select>
+                <mat-error *ngIf="nuevoCursoForm.controls.profesorDropdownForm.invalid">
+                  <span *ngIf="nuevoCursoForm.controls.profesorDropdownForm.errors.required">Seleccionar profesor</span>
+                </mat-error>
               </mat-form-field>
         </mat-grid-tile>
 
         <mat-grid-tile [colspan] = "1" [rowspan] = "1"><span class="fields-margin bold">Título</span></mat-grid-tile>
-        <mat-grid-tile [colspan] = "3" [rowspan] = "1">
+        <mat-grid-tile [colspan] = "4" [rowspan] = "1">
             <mat-form-field class="input-full-width">
-                <input class="fields-margin" matInput [(ngModel)]="tituloCursoInput" type="text" placeholder="">
+                <input matInput formControlName="inputTituloForm" class="fields-margin" required type="text">
+                <mat-error *ngIf="nuevoCursoForm.controls.inputTituloForm.invalid">
+                  <span *ngIf="nuevoCursoForm.controls.inputTituloForm.errors.required">Introducir título</span>
+                </mat-error>
             </mat-form-field>
         </mat-grid-tile>
 
         <mat-grid-tile [colspan] = "1" [rowspan] = "1"><span class="fields-margin bold">Nivel</span></mat-grid-tile>
-        <mat-grid-tile [colspan] = "3" [rowspan] = "1">
+        <mat-grid-tile [colspan] = "4" [rowspan] = "1">
             <mat-form-field appearance="fill" class="fields-margin input-full-width">
                 <mat-label>Niveles</mat-label>
-                <mat-select [(ngModel)]="selectedNivel">
+                <mat-select formControlName="nivelDropdownForm">
                   <mat-option *ngFor="let nivel of niveles" [value]="nivel.value">
                     {{nivel.value}}
                   </mat-option>
                 </mat-select>
+                <mat-error *ngIf="nuevoCursoForm.controls.nivelDropdownForm.invalid">
+                  <span *ngIf="nuevoCursoForm.controls.nivelDropdownForm.errors.required">Seleccionar nivel</span>
+                </mat-error>
               </mat-form-field>
       </mat-grid-tile>
 
       <mat-grid-tile [colspan] = "1" [rowspan] = "1"><span class="fields-margin bold">Horas</span></mat-grid-tile>
-        <mat-grid-tile [colspan] = "3" [rowspan] = "1">
+        <mat-grid-tile [colspan] = "4" [rowspan] = "1">
             <mat-form-field class="fields-margin-number">
-                <input matInput [(ngModel)]="numHorasInput" type="number" placeholder="">
+                <input matInput formControlName="inputHorasForm" class="fields-margin" type="number" min="0">
+                <mat-error *ngIf="nuevoCursoForm.controls.inputHorasForm.invalid">
+                  <span *ngIf="nuevoCursoForm.controls.inputHorasForm.errors.required">Introducir número de horas</span>
+                </mat-error>
             </mat-form-field>
         </mat-grid-tile>
     </mat-grid-list>
+    <button mat-raised-button color="primary" class="botonAnadir" type="submit">Añadir</button>
+  </form>
 </mat-dialog-content>
 
-<mat-dialog-actions>
+<!-- <mat-dialog-actions>
     <button mat-raised-button color="primary" class="botonAnadir" (click)="addCurso()">Añadir</button>
-</mat-dialog-actions>
+</mat-dialog-actions> -->
