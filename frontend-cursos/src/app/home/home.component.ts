@@ -6,29 +6,9 @@ import {MatTableDataSource } from '@angular/material/table';
 import {MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-export class CursoDTO {
-  titulo: String;
-  nivel: String;
-  numHoras: String;
-  activo: String;
-  nombreProfesor: String;
-  apellidosProfesor: String;
-  temario: String; 
-}
-
-export class Curso {
-  titulo: String;
-  nivel: String;
-  numHoras: String;
-  activo: Boolean;
-  profesor_id: number;
-  temario: String; 
-}
-
-export class Profesor {
-  value: string;
-  viewValue: string;
-}
+import { Curso } from './models/curso';
+import { Profesor } from './models/profesor'
+import { CursoDTO } from './dto/cursodto'
 
 export interface Nivel {
   value: string;
@@ -69,7 +49,7 @@ export class HomeComponent implements OnInit {
   nuevoCursoDialog() {
     const dialogRef = this.dialog.open(CursoDialogComponent, {
       width: '570px',
-      height: '670px',
+      height: '680px',
     });
 
     dialogRef.afterClosed().subscribe(() => {
@@ -125,9 +105,9 @@ export class CursoDialogComponent {
  nuevoCursoForm: FormGroup;
 
  /*
- *
+ * Archivo con el temario para seleccionar
  */
- temarioFile: File; // hold our file
+ temarioFile: File; 
  temarioBase64: String;
  nombreTemarioSubido: String = "Ningún archivo seleccionado";
 
@@ -141,7 +121,7 @@ export class CursoDialogComponent {
       this.profesores = data;
     })
     this.nuevoCursoForm = this.formBuilder.group({
-      activoCheckboxForm: [null, [Validators.required]],
+      activoCheckboxForm: [false, [Validators.required]],
       profesorDropdownForm: [null, [Validators.required]],
       inputTituloForm: [null, [Validators.required]],
       nivelDropdownForm: [null, [Validators.required]],
