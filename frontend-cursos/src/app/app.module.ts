@@ -18,6 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     MatGridListModule,
     MatSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatIconModule
   ],
   entryComponents: [HomeComponent, CursoDialogComponent],
   providers: [],

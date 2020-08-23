@@ -89,3 +89,26 @@ table {
 .alert {
     display:none;
 }
+
+.icon {
+    font-size: 30px;
+}
+
+.icon-upload {
+    margin-left: 10px;
+}
+
+.span-nombre-temario {
+    font-size: 13px;
+}
+
+.span-nombre-temario-bold {
+    margin-left: 10px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.fields-margin-boton-adjuntar {
+    font-size: 16px;
+    margin-top: 10px;
+}

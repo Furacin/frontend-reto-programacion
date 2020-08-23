@@ -2,15 +2,15 @@
 
 <mat-dialog-content class="dialog-content">
   <form [formGroup]="nuevoCursoForm" (submit)="addCurso()">
-    <mat-grid-list cols="5" rowHeight="90px">
+    <mat-grid-list cols="6" rowHeight="90px">
         <mat-grid-tile [colspan] = "1" [rowspan] = "1"><span class="fields-margin bold">Activo</span></mat-grid-tile>
-        <mat-grid-tile [colspan] = "4" [rowspan] = "1">
+        <mat-grid-tile [colspan] = "5" [rowspan] = "1">
           <mat-checkbox class="fields-margin" formControlName="activoCheckboxForm">
           </mat-checkbox>
         </mat-grid-tile>
 
         <mat-grid-tile [colspan] = "1" [rowspan] = "1"><span class="fields-margin bold">Profesor</span></mat-grid-tile>
-        <mat-grid-tile [colspan] = "4" [rowspan] = "1">
+        <mat-grid-tile [colspan] = "5" [rowspan] = "1">
             <mat-form-field appearance="fill" class="fields-margin input-full-width">
                 <mat-label>Profesores</mat-label>
                 <mat-select formControlName="profesorDropdownForm">
@@ -25,7 +25,7 @@
         </mat-grid-tile>
 
         <mat-grid-tile [colspan] = "1" [rowspan] = "1"><span class="fields-margin bold">Título</span></mat-grid-tile>
-        <mat-grid-tile [colspan] = "4" [rowspan] = "1">
+        <mat-grid-tile [colspan] = "5" [rowspan] = "1">
             <mat-form-field class="input-full-width">
                 <input matInput formControlName="inputTituloForm" class="fields-margin" required type="text">
                 <mat-error *ngIf="nuevoCursoForm.controls.inputTituloForm.invalid">
@@ -35,7 +35,7 @@
         </mat-grid-tile>
 
         <mat-grid-tile [colspan] = "1" [rowspan] = "1"><span class="fields-margin bold">Nivel</span></mat-grid-tile>
-        <mat-grid-tile [colspan] = "4" [rowspan] = "1">
+        <mat-grid-tile [colspan] = "5" [rowspan] = "1">
             <mat-form-field appearance="fill" class="fields-margin input-full-width">
                 <mat-label>Niveles</mat-label>
                 <mat-select formControlName="nivelDropdownForm">
@@ -50,19 +50,27 @@
       </mat-grid-tile>
 
       <mat-grid-tile [colspan] = "1" [rowspan] = "1"><span class="fields-margin bold">Horas</span></mat-grid-tile>
-        <mat-grid-tile [colspan] = "4" [rowspan] = "1">
-            <mat-form-field class="fields-margin-number">
-                <input matInput formControlName="inputHorasForm" class="fields-margin" type="number" min="0">
-                <mat-error *ngIf="nuevoCursoForm.controls.inputHorasForm.invalid">
-                  <span *ngIf="nuevoCursoForm.controls.inputHorasForm.errors.required">Introducir número de horas</span>
-                </mat-error>
-            </mat-form-field>
-        </mat-grid-tile>
+      <mat-grid-tile [colspan] = "5" [rowspan] = "1">
+           <mat-form-field class="fields-margin-number">
+               <input matInput formControlName="inputHorasForm" class="fields-margin" type="number" min="0">
+               <mat-error *ngIf="nuevoCursoForm.controls.inputHorasForm.invalid">
+                <span *ngIf="nuevoCursoForm.controls.inputHorasForm.errors.required">Introducir número de horas</span>
+               </mat-error>
+          </mat-form-field>
+      </mat-grid-tile>
     </mat-grid-list>
-    <button mat-raised-button color="primary" class="botonAnadir" type="submit">Añadir</button>
+    <div>
+      <button mat-stroked-button color="primary" (click)="openInput()" class="fields-margin-boton-adjuntar">
+        <span>Adjuntar temario (PDF)</span>
+        <input id="fileInput" hidden type="file" (change)="fileChange($event.target.files)" accept="application/pdf"/>
+        <mat-icon class="icon-upload"> publish</mat-icon> 
+      </button>
+      <span class="span-nombre-temario-bold" *ngIf="nombreTemarioSubido !== undefined">Archivo: </span>
+      <span class="span-nombre-temario">{{nombreTemarioSubido}}</span>
+    </div>
+    <div style="margin-top: 10px;">
+      <button mat-raised-button color="primary" class="botonAnadir" type="submit">Añadir</button>
+    </div>
+    
   </form>
 </mat-dialog-content>
-
-<!-- <mat-dialog-actions>
-    <button mat-raised-button color="primary" class="botonAnadir" (click)="addCurso()">Añadir</button>
-</mat-dialog-actions> -->
