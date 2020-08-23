@@ -12,7 +12,8 @@ export class CursoDTO {
   numHoras: String;
   activo: String;
   nombreProfesor: String;
-  apellidosProfesor: String 
+  apellidosProfesor: String;
+  temario: String; 
 }
 
 export class Curso {
@@ -21,6 +22,15 @@ export class Curso {
   numHoras: String;
   activo: Boolean;
   profesor_id: number;
+}
+
+export class CursoConTemario {
+  titulo: String;
+  nivel: String;
+  numHoras: String;
+  activo: Boolean;
+  profesor_id: number;
+  temario: String
 }
 
 export class Profesor {
@@ -38,7 +48,7 @@ export interface Nivel {
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  displayedColumns: string[] = ['titulo', 'nombreProfesor', 'nivel', 'numHoras'];
+  displayedColumns: string[] = ['titulo', 'nombreProfesor', 'nivel', 'numHoras', 'temario'];
   listaCursos: CursoDTO[];
   dataSource;
 
@@ -75,6 +85,21 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  /*
+  * Descarga de temario
+  */
+
+  descargarTemario(row) {
+    console.log(row);
+    var temarioPDF = row.temario;
+    const linkSource = `data:application/pdf;base64,${temarioPDF}`;
+    const downloadLink = document.createElement("a");
+    const fileName = "temario.pdf";
+
+    downloadLink.href = linkSource;
+    downloadLink.download = fileName;
+    downloadLink.click();
+ }
 }
 
 @Component({
@@ -108,6 +133,12 @@ export class CursoDialogComponent {
   */
  nuevoCursoForm: FormGroup;
 
+ /*
+ *
+ */
+ temarioFile: File; // hold our file
+ temarioBase64: String;
+
   constructor(private http: HttpClient, public dialogRef: MatDialogRef<CursoDialogComponent>, private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
@@ -127,19 +158,43 @@ export class CursoDialogComponent {
   }
 
   addCurso() {
-    let curso: Curso = {
+    let curso: CursoConTemario = {
       titulo: this.nuevoCursoForm.value.inputTituloForm, 
       nivel: this.nuevoCursoForm.value.nivelDropdownForm, 
       numHoras: this.nuevoCursoForm.value.inputHorasForm, 
       activo: this.nuevoCursoForm.value.activoCheckboxForm, 
-      profesor_id: this.nuevoCursoForm.value.profesorDropdownForm
+      profesor_id: this.nuevoCursoForm.value.profesorDropdownForm,
+      temario: this.temarioBase64
     };
-    if (curso.titulo != null && curso.nivel != null && curso.numHoras != null && curso.activo != null && curso.profesor_id != null) {
-      this.http.post<any>('http://localhost:8080/springboot-mybatis/api/curso/addCurso', curso).subscribe(data => {
+    if (curso.titulo != null && curso.nivel != null && curso.numHoras != null && curso.activo != null && curso.profesor_id != null && curso.temario != null) {
+      this.http.post<any>('http://localhost:8080/springboot-mybatis/api/curso/addCursoConTemario', curso).subscribe(data => {
        this.postId = data.id;
        this.dialogRef.close();
      })
     }
   }
+
+  /**
+   * Subida del temario
+   */ 
+  openInput(){ 
+    // your can use ElementRef for this later
+    document.getElementById("fileInput").click();
+  }
+
+  fileChange(files: File[]) {
+    if (files.length > 0) {
+      this.temarioFile = files[0];
+      // FileReader function for read the file.
+      var fileReader = new FileReader();
+      fileReader.onload = this._handleReaderLoaded.bind(this);
+      fileReader.readAsBinaryString(this.temarioFile);
+    }
+  }
+
+  _handleReaderLoaded(readerEvt) {
+    var binaryString = readerEvt.target.result;
+           this.temarioBase64= btoa(binaryString);
+   }
 
 }
