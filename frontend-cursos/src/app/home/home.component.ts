@@ -68,8 +68,8 @@ export class HomeComponent implements OnInit {
   */
   nuevoCursoDialog() {
     const dialogRef = this.dialog.open(CursoDialogComponent, {
-      width: '550px',
-      height: '610px',
+      width: '570px',
+      height: '670px',
     });
 
     dialogRef.afterClosed().subscribe(() => {
@@ -82,11 +82,10 @@ export class HomeComponent implements OnInit {
   */
 
   descargarTemario(row) {
-    console.log(row);
     var temarioPDF = row.temario;
     const linkSource = `data:application/pdf;base64,${temarioPDF}`;
     const downloadLink = document.createElement("a");
-    const fileName = "temario.pdf";
+    const fileName = "Temario - " + row.titulo + ".pdf";
 
     downloadLink.href = linkSource;
     downloadLink.download = fileName;
@@ -130,6 +129,7 @@ export class CursoDialogComponent {
  */
  temarioFile: File; // hold our file
  temarioBase64: String;
+ nombreTemarioSubido: String = "Ningún archivo seleccionado";
 
   constructor(private http: HttpClient, public dialogRef: MatDialogRef<CursoDialogComponent>, private formBuilder: FormBuilder) {}
 
@@ -167,23 +167,29 @@ export class CursoDialogComponent {
   }
 
   /**
-   * Subida del temario
+   * Subida del pdf con el temario
    */ 
   openInput(){ 
     // your can use ElementRef for this later
     document.getElementById("fileInput").click();
   }
-
+  // FileReader para leer el fichero
   fileChange(files: File[]) {
-    if (files.length > 0) {
-      this.temarioFile = files[0];
-      // FileReader function for read the file.
-      var fileReader = new FileReader();
-      fileReader.onload = this._handleReaderLoaded.bind(this);
-      fileReader.readAsBinaryString(this.temarioFile);
+    if ( /\.(pdf)$/i.test(files[0].name) === false ) {
+       alert("Por favor, selecciona un temario en formato PDF");
+    }
+    else {
+      this.nombreTemarioSubido = files[0].name;
+      if (files.length > 0) {
+        this.temarioFile = files[0];
+        // FileReader function for read the file.
+        var fileReader = new FileReader();
+        fileReader.onload = this._handleReaderLoaded.bind(this);
+        fileReader.readAsBinaryString(this.temarioFile);
+      }
     }
   }
-
+  //Guardamos el fichero en formato Base64 
   _handleReaderLoaded(readerEvt) {
     var binaryString = readerEvt.target.result;
            this.temarioBase64= btoa(binaryString);
