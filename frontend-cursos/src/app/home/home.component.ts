@@ -22,15 +22,7 @@ export class Curso {
   numHoras: String;
   activo: Boolean;
   profesor_id: number;
-}
-
-export class CursoConTemario {
-  titulo: String;
-  nivel: String;
-  numHoras: String;
-  activo: Boolean;
-  profesor_id: number;
-  temario: String
+  temario: String; 
 }
 
 export class Profesor {
@@ -158,7 +150,7 @@ export class CursoDialogComponent {
   }
 
   addCurso() {
-    let curso: CursoConTemario = {
+    let curso: Curso = {
       titulo: this.nuevoCursoForm.value.inputTituloForm, 
       nivel: this.nuevoCursoForm.value.nivelDropdownForm, 
       numHoras: this.nuevoCursoForm.value.inputHorasForm, 
@@ -167,7 +159,7 @@ export class CursoDialogComponent {
       temario: this.temarioBase64
     };
     if (curso.titulo != null && curso.nivel != null && curso.numHoras != null && curso.activo != null && curso.profesor_id != null && curso.temario != null) {
-      this.http.post<any>('http://localhost:8080/springboot-mybatis/api/curso/addCursoConTemario', curso).subscribe(data => {
+      this.http.post<any>('http://localhost:8080/springboot-mybatis/api/curso/addCurso', curso).subscribe(data => {
        this.postId = data.id;
        this.dialogRef.close();
      })
