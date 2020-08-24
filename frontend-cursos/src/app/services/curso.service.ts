@@ -7,6 +7,8 @@ import { HttpClient } from '@angular/common/http';
 
 export class CursoService {
 
+    readonly API_URL = 'http://localhost:8080/springboot-mybatis/api/curso';
+
     constructor(private http: HttpClient) { }
 
     public getAllCursosActivos() {

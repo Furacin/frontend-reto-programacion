@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
 
 import { MatPaginator } from '@angular/material/paginator';
-import {MatTableDataSource } from '@angular/material/table';
-import {MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Curso } from '../../models/curso';

@@ -6,6 +6,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ProfesorService {
 
+  readonly API_URL = 'http://localhost:8080/springboot-mybatis/api/profesor';
+
   constructor(private http: HttpClient) { }
 
   public getProfesores() {
