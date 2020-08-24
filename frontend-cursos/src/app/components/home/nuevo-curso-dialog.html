@@ -52,7 +52,7 @@
       <mat-grid-tile [colspan] = "1" [rowspan] = "1"><span class="fields-margin bold">Horas</span></mat-grid-tile>
       <mat-grid-tile [colspan] = "5" [rowspan] = "1">
            <mat-form-field class="fields-margin-number">
-               <input matInput formControlName="inputHorasForm" class="fields-margin" type="number" min="0">
+               <input matInput formControlName="inputHorasForm" class="fields-margin" type="number" min="0" oninput="this.value = Math.abs(this.value)">
                <mat-error *ngIf="nuevoCursoForm.controls.inputHorasForm.invalid">
                 <span *ngIf="nuevoCursoForm.controls.inputHorasForm.errors.required">Introducir número de horas</span>
                </mat-error>
