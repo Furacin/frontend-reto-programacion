@@ -1,14 +1,16 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
 import { MatPaginator } from '@angular/material/paginator';
 import {MatTableDataSource } from '@angular/material/table';
 import {MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { Curso } from './models/curso';
-import { Profesor } from './models/profesor'
-import { CursoDTO } from './dto/cursodto'
+import { Curso } from '../../models/curso';
+import { ProfesorDTO } from '../../dto/profesordto'
+import { CursoDTO } from '../../dto/cursodto'
+ 
+import { ProfesorService } from '../../services/profesor.service'
+import { CursoService } from '../../services/curso.service'
 
 export interface Nivel {
   value: string;
@@ -26,7 +28,7 @@ export class HomeComponent implements OnInit {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private http: HttpClient, public dialog: MatDialog) { }
+  constructor(private cursoSrv: CursoService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.getCursos();
@@ -36,7 +38,7 @@ export class HomeComponent implements OnInit {
     /*
     * Cargamos la lista de cursos disponibles
     */
-    this.http.get<any>('http://localhost:8080/springboot-mybatis/api/curso/allCursosActivos').subscribe(data => {
+    this.cursoSrv.getAllCursosActivos().subscribe(data => {
     this.listaCursos = data;
     this.dataSource = new MatTableDataSource<CursoDTO>(this.listaCursos);
     this.dataSource.paginator = this.paginator;
@@ -92,12 +94,7 @@ export class CursoDialogComponent {
   /* Lista de profesores
   *
   */
-  profesores: Profesor[];
-
-  /*
-  * POST HTTP
-  */
-  postId; 
+  profesores: ProfesorDTO[];
 
   /*
   * Formulario
@@ -111,13 +108,13 @@ export class CursoDialogComponent {
  temarioBase64: String;
  nombreTemarioSubido: String = "Ningún archivo seleccionado";
 
-  constructor(private http: HttpClient, public dialogRef: MatDialogRef<CursoDialogComponent>, private formBuilder: FormBuilder) {}
+  constructor(private cursoSrv: CursoService, private profesorSrv: ProfesorService, public dialogRef: MatDialogRef<CursoDialogComponent>, private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     /*
     * Cargamos la lista de profesores en el dropdown
     */
-    this.http.get<any>('http://localhost:8080/springboot-mybatis/api/profesor/allProfesores').subscribe(data => {
+    this.profesorSrv.getProfesores().subscribe(data => {
       this.profesores = data;
     })
     this.nuevoCursoForm = this.formBuilder.group({
@@ -139,8 +136,7 @@ export class CursoDialogComponent {
       temario: this.temarioBase64
     };
     if (curso.titulo != null && curso.nivel != null && curso.numHoras != null && curso.activo != null && curso.profesor_id != null && curso.temario != null) {
-      this.http.post<any>('http://localhost:8080/springboot-mybatis/api/curso/addCurso', curso).subscribe(data => {
-       this.postId = data.id;
+       this.cursoSrv.addCurso(curso).subscribe(data => {
        this.dialogRef.close();
      })
     }
@@ -172,7 +168,7 @@ export class CursoDialogComponent {
   //Guardamos el fichero en formato Base64 
   _handleReaderLoaded(readerEvt) {
     var binaryString = readerEvt.target.result;
-           this.temarioBase64= btoa(binaryString);
+      this.temarioBase64= btoa(binaryString);
    }
 
 }
